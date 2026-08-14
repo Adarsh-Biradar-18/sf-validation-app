@@ -1,0 +1,19 @@
+{
+  "name": "sf-validation-app-backend",
+  "version": "1.0.0",
+  "description": "Backend bridge between web app and Salesforce (OAuth + Tooling API)",
+  "main": "server.js",
+  "engines": {
+    "node": "18.x"
+  },
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2",
+    "express-session": "^1.18.0",
+    "jsforce": "^1.11.1"
+  }
+}
