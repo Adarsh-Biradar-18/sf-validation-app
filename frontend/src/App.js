@@ -1,6 +1,11 @@
 import React, { useEffect, useState, useCallback } from 'react';
 
-const API_BASE = process.env.REACT_APP_API_URL || 'http://localhost:5000';
+// In production, the backend serves this frontend from the same origin,
+// so API calls should be relative (empty base). Locally, the frontend (port 3000)
+// and backend (port 5000) run separately, so we need the full localhost URL.
+const API_BASE =
+  process.env.REACT_APP_API_URL ||
+  (window.location.port === '3000' ? 'http://localhost:5000' : '');
 
 function App() {
   const [loggedIn, setLoggedIn] = useState(false);
@@ -46,9 +51,10 @@ function App() {
     setPendingChanges({});
   };
 
-  const fetchRules = async () => {
+  const fetchRules = async (options = {}) => {
+    const { silent = false } = options;
     setLoadingRules(true);
-    setStatusMessage(null);
+    if (!silent) setStatusMessage(null);
     try {
       const res = await fetch(`${API_BASE}/api/validation-rules`, {
         credentials: 'include',
@@ -102,7 +108,7 @@ function App() {
 
       if (failed.length === 0) {
         setStatusMessage({ type: 'success', text: `Deployed ${changes.length} change(s) to Salesforce.` });
-        await fetchRules();
+        await fetchRules({ silent: true });
       } else {
         setStatusMessage({
           type: 'error',
