@@ -8,6 +8,11 @@ const crypto = require('crypto');
 const app = express();
 const PORT = process.env.PORT || 5000;
 
+// Render (and most hosting platforms) sit behind a reverse proxy that terminates
+// HTTPS. Without this, Express doesn't consider the connection secure, so
+// secure session cookies never actually get set - breaking login.
+app.set('trust proxy', 1);
+
 app.use(express.json());
 app.use(
   cors({
