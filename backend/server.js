@@ -89,7 +89,7 @@ app.get('/auth/login', (req, res) => {
     response_type: 'code',
     client_id: process.env.SF_CLIENT_ID,
     redirect_uri: process.env.SF_CALLBACK_URL,
-    scope: 'api refresh_token offline_access id',
+    scope: 'api refresh_token offline_access openid',
     code_challenge: codeChallenge,
     code_challenge_method: 'S256',
   });
